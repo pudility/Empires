@@ -1,6 +1,13 @@
 # EMPIRE
 Cellular automation. Based off of an application by Hopson97.
 
+TODO: 
+ Use DeltaMap (Only updates pixels of changed cells)
+ Add diesease
+ Add custom maps
+ More to come!
+ 
+
 Rules:
 
     -The world is made out a grid of cells aka "people"
