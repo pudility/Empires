@@ -1,5 +1,6 @@
 #include "application.h"
 #include "aidirector.h"
+#include <SFML/Graphics.hpp>
 
 void Application::run()
 {
@@ -23,7 +24,7 @@ void Application::run()
 	Colony *pColonyOne = new Colony( sf::Color( 255, 255, 0, 255 ) );
 	Person *pPersonOne = new Person( 10, 0, 0, pColonyOne );
 	Colony *pColonyTwo = new Colony( sf::Color( 255, 0, 255, 255 ) );
-	Person *pPersonTwo = new Person( 15, 0, 0, pColonyTwo );
+	Person *pPersonTwo = new Person( 10, 0, 0, pColonyTwo ); /* I changed this from 15 to 10 inorder to make it more fair, otherwise one of the armies wins every time */
 	UTIL_At2D( pGameMap, 1, 1 )->MoveInPerson( pPersonOne );
 	UTIL_At2D( pGameMap, 80, 80 )->MoveInPerson( pPersonTwo );
 
@@ -39,7 +40,7 @@ void Application::run()
 
 		if ( AI.DoThink() )
 		{
-			UTIL_RenderMap( pGameMap, pFrame /*, AI.GetDeltaMap()*/ ); // TODO: Use deltamap
+			UTIL_RenderMap( pGameMap, pFrame , AI.GetDeltaMap() ); // TODO: Use deltamap
 			m_BackgroundTexture.loadFromImage( *pFrame );
 			m_View.setTexture( m_BackgroundTexture );
 			m_Window.draw( m_View );

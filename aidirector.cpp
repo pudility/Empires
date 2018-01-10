@@ -37,7 +37,6 @@ bool Director::DirectorThink()
 		m_pDeltaMap->clear();
 
 		// Loop through map contents
-
 		Map::iterator yIterator;
 		std::vector< BaseCell* >::iterator xIterator;
 		size_t iMapHeight = m_pMap->size();
@@ -72,10 +71,11 @@ bool Director::DirectorThink()
 						{
 							int iDesiredXPosition = iHorizontalPosition + iXOffset;
 							int iDesiredYPosition = iVerticalPosition + iYOffset;
-							if ( !IsNumberInRange( iDesiredYPosition, 0, iMapHeight ) || !IsNumberInRange( iDesiredXPosition, 0, iMapWidth ) )
+							if ( !IsNumberInRange( iDesiredYPosition, 0, ( int )iMapHeight ) || !IsNumberInRange( iDesiredXPosition, 0, ( int )iMapWidth ) )
 								continue;
 
 							pEmptyCell = UTIL_At2D( m_pMap, iHorizontalPosition + iXOffset, iVerticalPosition + iYOffset );
+                            m_pDeltaMap->push_back( std::make_pair( iHorizontalPosition, iVerticalPosition ) );
 							if ( pEmptyCell && pEmptyCell->IsOccupiableTerrain() && !pEmptyCell->GetOccupant() )
 								goto EmptyCellFound;
 						}	
@@ -94,7 +94,7 @@ bool Director::DirectorThink()
 					}
 					// If no empty space dont have baby yet
 				}
-				// Peron think. Start by trying to move up, down, left, or right
+				// Person think. Start by trying to move up, down, left, or right
 				int iDesiredXPosition = iHorizontalPosition;
 				int iDesiredYPosition = iVerticalPosition;
 
@@ -121,7 +121,7 @@ bool Director::DirectorThink()
 				}
 
 				BaseCell *pTargetCell = nullptr; // Another compiler hack
-				if ( IsNumberInRange( iDesiredYPosition, 0, iMapHeight ) && IsNumberInRange( iDesiredXPosition, 0, iMapWidth) )
+				if ( IsNumberInRange( iDesiredYPosition, 0, ( int )iMapHeight ) && IsNumberInRange( iDesiredXPosition, 0, ( int )iMapWidth) )
 				{
 					pTargetCell = UTIL_At2D( m_pMap, iDesiredXPosition, iDesiredYPosition );
 				}

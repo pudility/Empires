@@ -1,4 +1,5 @@
 #include "person.h"
+#include <iostream>
 
 void Person::Kill()
 {
@@ -27,11 +28,15 @@ Person* Person::Reproduce()
 
 	int iOffspringStrength = m_iStrength;
 
-	// Roll for mutation. 25% chance for weaker offspring
-	switch ( m_RandomNumberGenerator.CreateRandomNumber() )
+	// Roll for mutation. 25% chance for weaker offspring or 25% chance of stronger offspring
+    int iRoll = m_RandomNumberGenerator.CreateRandomNumber();
+
+    switch ( iRoll )
 	{
 	case 1:
 		iOffspringStrength--;
+    case 2:
+        iOffspringStrength++;
 	default:
 		break;
 	}
