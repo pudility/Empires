@@ -45,7 +45,6 @@ void UTIL_RenderMap( Map *pMap, sf::Image *pImage, DeltaMap *pDeltaMap /*= nullp
 
 	if ( !pDeltaMap )
 	{
-        std::cout << "No Map \n";
 		for ( int iVerticalIndex = 0; iVerticalIndex < pAllignedMap.size(); iVerticalIndex++ )
 		{
 			for ( int iHorizontalIndex = 0; iHorizontalIndex < MapWidth; iHorizontalIndex++ )
@@ -56,7 +55,6 @@ void UTIL_RenderMap( Map *pMap, sf::Image *pImage, DeltaMap *pDeltaMap /*= nullp
 	}
 	else
 	{
-        std::cout << "Yes Map \n";
 		DeltaMap::iterator itDeltaMap;
 		for ( itDeltaMap = pDeltaMap->begin(); itDeltaMap!=pDeltaMap->end(); itDeltaMap++ )
 		{

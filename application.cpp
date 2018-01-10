@@ -40,7 +40,7 @@ void Application::run()
 
 		if ( AI.DoThink() )
 		{
-			UTIL_RenderMap( pGameMap, pFrame , AI.GetDeltaMap() ); // TODO: Use deltamap
+			UTIL_RenderMap( pGameMap, pFrame , AI.GetDeltaMap() ); // if deltamap stops working don't pass it in
 			m_BackgroundTexture.loadFromImage( *pFrame );
 			m_View.setTexture( m_BackgroundTexture );
 			m_Window.draw( m_View );
