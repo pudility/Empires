@@ -1,6 +1,8 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include "map.h"
 
 #define WINDOW_WIDTH  400
 #define WINDOW_HEIGHT 400
@@ -17,4 +19,5 @@ private:
 	sf::RenderWindow m_Window;
 	sf::Sprite		 m_View;
 	sf::Texture		 m_BackgroundTexture;
+    map      *m_mMap = new map();
 };

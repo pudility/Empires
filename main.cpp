@@ -2,7 +2,7 @@
 
 #if __APPLE__
 #include <iostream>
-
+#include <string>
 int main( int argc, const char * argv[] )
 {
     std::cout << "Running on MacOS" << std::endl;

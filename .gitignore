@@ -304,3 +304,6 @@ OpenCover/
 # vcxproj
 *.vcxproj
 *.vcxproj.*
+
+# boost
+boost_1_66_0

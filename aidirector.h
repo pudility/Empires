@@ -34,6 +34,7 @@ private:
 	sf::Time  m_tLastThink;
 	sf::Time  m_tThinkInterval; // Default constructor sets this to zero
 	Map		 *m_pMap;
+    map      *m_mMap;
 	DeltaMap *m_pDeltaMap;
 	RandomNumberGenerator m_RandomNumberGenerator;
 };
