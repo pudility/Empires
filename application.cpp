@@ -21,12 +21,33 @@ void Application::run()
 
     pFrame->create( DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT );
 
-    Colony *pColonyOne = new Colony( sf::Color( 255, 255, 0, 255 ) );
-    Person *pPersonOne = new Person( 10, 0, 0, pColonyOne );
-    Colony *pColonyTwo = new Colony( sf::Color( 255, 0, 255, 255 ) );
-    Person *pPersonTwo = new Person( 10, 0, 0, pColonyTwo ); /* I changed this from 15 to 10 inorder to make it more fair, otherwise one of the armies wins every time */
-    m_mMap->UTIL_At2D( pGameMap, 1, 1 )->MoveInPerson( pPersonOne );
-    m_mMap->UTIL_At2D( pGameMap, 20, 20 )->MoveInPerson( pPersonTwo );
+    for (int i = 0; i < rules::iTeams; i++) {
+        Colony *pColony;
+        
+        switch (i) {
+            case 0:
+                pColony = new Colony( sf::Color( 255, 0, 255, 255 ) );
+                break;
+            case 1:
+                pColony = new Colony( sf::Color( 255, 255, 0, 255 ) );
+                break;
+            case 2:
+                pColony = new Colony( sf::Color( 255, 0, 0, 255 ) );
+                break;
+            case 3:
+                pColony = new Colony( sf::Color( 0, 0, 255, 255 ) );
+                break;
+            default:
+                pColony = new Colony( sf::Color( 255, 0, 255, 255 ) );
+                break;
+        }
+
+        Person *pPerson = new Person( 10, 0, 0, pColony );
+        
+        int iSpawnLoc = m_RandomNumberGenerator.CreateRandomNumber();
+        
+        m_mMap->UTIL_At2D( pGameMap, iSpawnLoc, iSpawnLoc )->MoveInPerson( pPerson );
+    }
 
     m_mMap->UTIL_RenderMap( pGameMap, pFrame ); // Draw the init map
     while ( m_Window.isOpen() )

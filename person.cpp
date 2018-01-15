@@ -29,7 +29,7 @@ Person* Person::Reproduce()
     int iOffspringStrength = m_iStrength;
 
     // Roll for mutation. 25% chance for weaker offspring or 25% chance of stronger offspring
-    int iRoll = m_RandomNumberGenerator.CreateRandomNumber();
+    int iRoll = m_RandomNumberGenerator.CreateRandomNumber ();
 
     switch ( iRoll )
     {

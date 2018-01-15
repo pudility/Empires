@@ -21,8 +21,9 @@
 #include <unistd.h>
 #include <fstream>
 #include <utility>
-#include <boost/algorithm/string/join.hpp>
 #include <SFML/Graphics.hpp>
+#include <time.h>
+#include <thread>
 
 class socketconnector {
 public:
@@ -48,6 +49,16 @@ private:
     fd_set sSet;
     char cBuffer[1024] = {0};
     std::string sOld = "";
+    std::string sRecived = "Recived";
+    clock_t t1, t2;
+    std::thread snd;
+    bool bHasSetThreadOnce = false;
+    std::string sSendAlready = "";
+    
+    void server ();
+    void client ();
+    void vPrintColor ();
+//    void vSend (int i);
 };
 
 #endif /* socketconnector_hpp */

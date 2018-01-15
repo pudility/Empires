@@ -1,6 +1,6 @@
 #include "aidirector.h"
 
-Director::Director( Map *pMap )
+Director::Director( Map *pMap ) : m_RandomNumberGenerator ( 4 )
 {
     if ( !pMap )// Handle this
     {
@@ -179,9 +179,5 @@ EmptyCellFound:
 // Returns TRUE if person one wins
 bool Director::DoFight( Person *pPersonOne, Person *pPersonTwo )
 {
-    if ( !pPersonOne || !pPersonTwo )
-        return false;	// TODO: Handle this error
-
-    // Gives person two a slight advantage ( wins ties ) because they are the defending force.
-    return pPersonOne->GetStrength() > pPersonTwo->GetStrength();
+    return m_Rules.vOnContact(pPersonOne, pPersonTwo);
 }

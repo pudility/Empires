@@ -8,7 +8,7 @@
 class Person
 {
 public:
-	Person( int iStrength, int iAge, int iReproductionValue, Colony* pColony ) : m_iStrength( iStrength ), m_iAge( iAge ), m_iReproductionValue( iReproductionValue ), m_bIsAlive( true ), m_pColony( pColony ) {}
+    Person( int iStrength, int iAge, int iReproductionValue, Colony* pColony ) : m_iStrength( iStrength ), m_iAge( iAge ), m_iReproductionValue( iReproductionValue ), m_bIsAlive( true ), m_RandomNumberGenerator ( 4 ), m_pColony( pColony ) {}
 	bool	IsAlive() { return m_bIsAlive; }
 
 	void	Kill();
@@ -25,5 +25,5 @@ private:
 	int m_iAge;
 	int m_iReproductionValue;
 	bool m_bIsAlive;
-	RandomNumberGenerator m_RandomNumberGenerator;
+    RandomNumberGenerator m_RandomNumberGenerator;
 };

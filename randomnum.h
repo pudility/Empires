@@ -6,11 +6,11 @@
 class RandomNumberGenerator
 {
 public:
-	RandomNumberGenerator()
+	RandomNumberGenerator( int max )
 	{
 		// Random number util
 		m_RandomNumberEngine = std::mt19937( std::random_device()() );
-		m_UnbiasedGenerator = std::uniform_int_distribution<int>( 0, 3 );
+		m_UnbiasedGenerator = std::uniform_int_distribution<int>( 0, max );
 	}
 	int CreateRandomNumber() { return m_UnbiasedGenerator( m_RandomNumberEngine ); };
 private:

@@ -5,6 +5,7 @@
 
 #include "map.h"
 #include "person.h"
+#include "rules.hpp"
 #include "randomnum.h"
 
 #define AI_DEFAULT_THINK_TIME sf::milliseconds( 50 )
@@ -37,4 +38,5 @@ private:
     map      *m_mMap;
 	DeltaMap *m_pDeltaMap;
 	RandomNumberGenerator m_RandomNumberGenerator;
+    rules m_Rules;
 };

@@ -2,7 +2,9 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "randomnum.h"
 #include "map.h"
+#include "rules.hpp"
 
 #define WINDOW_WIDTH  400
 #define WINDOW_HEIGHT 400
@@ -13,9 +15,10 @@
 class Application
 {
 public:
-	Application() {};
+    Application(): m_RandomNumberGenerator ( 100 ) {};
 	void run();
 private:
+    RandomNumberGenerator m_RandomNumberGenerator;
 	sf::RenderWindow m_Window;
 	sf::Sprite		 m_View;
 	sf::Texture		 m_BackgroundTexture;

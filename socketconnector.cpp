@@ -27,66 +27,87 @@ bool bGetIsServer ()
     return bIsServer;
 }
 
+void socketconnector::server () {
+    iSocket = socket(AF_INET, SOCK_STREAM, 0);
+    
+    saiAddress.sin_family = AF_INET;
+    saiAddress.sin_port = htons(3000);
+    saiAddress.sin_addr.s_addr = INADDR_ANY; //INADDR_ANY is great because it makes your socket listen on all networks
+    
+    bind(iSocket, (sockaddr *)&saiAddress, sizeof(saiAddress));
+    listen(iSocket, SOMAXCONN);
+    
+    iAddressSize = sizeof(saiAddress);
+    iNewSocket = accept(iSocket, (struct sockaddr *)&saiAddress, (socklen_t *)&iAddressSize);
+    
+    send(iSocket, sRecived.c_str(), sRecived.size(), 0);
+}
+
+void socketconnector::client () {
+    iSocket = socket(AF_INET, SOCK_STREAM, 0);
+    
+    memset(&saiAddress, '0', sizeof(saiAddress));
+    
+    saiAddress.sin_family = AF_INET;
+    saiAddress.sin_port = htons(3000);
+    saiAddress.sin_addr.s_addr = INADDR_ANY;
+    
+    connect(iSocket, (struct sockaddr *)&saiAddress, sizeof(saiAddress));
+    
+    send(iSocket, sRecived.c_str(), sRecived.size(), 0);
+}
+
+void socketconnector::vPrintColor () {
+ std::cout << "Color: " << std::to_string(sfcData.r) << "," << std::to_string(sfcData.g) << "," << std::to_string(sfcData.b) << "\n";
+}
+
 socketconnector::socketconnector ()
 {
     bIsServer = bGetIsServer();
 
     if (bIsServer)
     {
-        iSocket = socket(AF_INET, SOCK_STREAM, 0);
-
-        saiAddress.sin_family = AF_INET;
-        saiAddress.sin_port = htons(3000);
-        saiAddress.sin_addr.s_addr = INADDR_ANY; //INADDR_ANY is great because it makes your socket listen on all networks
-
-        bind(iSocket, (sockaddr *)&saiAddress, sizeof(saiAddress));
-        listen(iSocket, SOMAXCONN);
-
-        iAddressSize = sizeof(saiAddress);
-        iNewSocket = accept(iSocket, (struct sockaddr *)&saiAddress, (socklen_t *)&iAddressSize);
-
-        read( iNewSocket, cBuffer, 1024 );
-        std::cout << "Got: " << cBuffer << std::endl;
+        server();
     }
     else
     {
-        iSocket = socket(AF_INET, SOCK_STREAM, 0);
-
-        memset(&saiAddress, '0', sizeof(saiAddress));
-
-        saiAddress.sin_family = AF_INET;
-        saiAddress.sin_port = htons(3000);
-        saiAddress.sin_addr.s_addr = INADDR_ANY;
-
-        connect(iSocket, (struct sockaddr *)&saiAddress, sizeof(saiAddress));
-
-        std::string test = "test";
-        send(iSocket, test.c_str(), test.size(), 0);
+        client();
     }
 }
 
 void socketconnector::vSendMessage(std::string input)
-{
-    if (iCounter == 500)
+{    
+    if (bIsServer)
+        socketconnector::vDeSeralizeAndSetString(vRead());
+    else
     {
-        iCounter = 0;
-
-        if (bIsServer)
-            socketconnector::vDeSeralizeAndSetString(vRead());
-        else
+        if (input == sSendAlready)
+        {
+            sSendAlready = input;
+            return;
+        }
+        
+        if (iCounter == 500)
         {
             send(iSocket, sPush.c_str(), sPush.size(), 0);
             sPush = "";
+            iCounter = 0;
         }
+        else
+            sPush.append(input);
     }
-    else
-        sPush.append(input);
+    
     iCounter++;
 }
 
 std::string socketconnector::vRead()
 {
-    read( iNewSocket, cBuffer, 1024 );
+    if (bIsServer)
+        read( iNewSocket, cBuffer, 1024 );
+    else
+        read( iSocket, cBuffer, 1024 );
+
+//    send(iSocket, sRecived.c_str(), sRecived.size(), 0);
     return cBuffer;
 }
 
@@ -125,7 +146,6 @@ void socketconnector::vDeSeralizeAndSetString( std::string sIn )
                     sfcData = sf::Color ( std::stoi(svSplitColor[0]),
                                           std::stoi(svSplitColor[1]),
                                           std::stoi(svSplitColor[2]) );
-                    std::cout << "Color: " << std::to_string(sfcData.r) << "," << std::to_string(sfcData.g) << "," << std::to_string(sfcData.b) << "\n";
                     iFirst = std::stoi(svSplitSecond[0]);
                     iSecond = std::stoi(svSplitSecond[1]);
                 }
