@@ -5,7 +5,6 @@
 
 #include "map.h"
 #include "person.h"
-#include "rules.hpp"
 #include "randomnum.h"
 
 #define AI_DEFAULT_THINK_TIME sf::milliseconds( 50 )
@@ -23,7 +22,6 @@ public:
 private:
 	bool DirectorThink();
 	bool DoFight( Person *pPersonOne, Person *pPersonTwo );
-	// [min,max)
 	inline bool IsNumberInRange( int num, int min, int max )
 	{
 		return ( num >= min ) && ( num < max );
@@ -38,5 +36,4 @@ private:
     map      *m_mMap;
 	DeltaMap *m_pDeltaMap;
 	RandomNumberGenerator m_RandomNumberGenerator;
-    rules m_Rules;
 };

@@ -179,5 +179,9 @@ EmptyCellFound:
 // Returns TRUE if person one wins
 bool Director::DoFight( Person *pPersonOne, Person *pPersonTwo )
 {
-    return m_Rules.vOnContact(pPersonOne, pPersonTwo);
+    if ( !pPersonOne || !pPersonTwo )
+        return false;    // TODO: Handle this error
+    
+    // Gives person two a slight advantage ( wins ties ) because they are the defending force.
+    return pPersonOne->GetStrength() > pPersonTwo->GetStrength();
 }

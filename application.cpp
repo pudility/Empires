@@ -5,50 +5,29 @@
 void Application::run()
 {
     m_Window.create( sf::VideoMode( WINDOW_WIDTH, WINDOW_HEIGHT ), "Empires", sf::Style::Default );
-
+    
     Map *pGameMap = new Map;
     m_mMap->UTIL_MakeEmptyMap( pGameMap, DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT );
     m_mMap->UTIL_PopulateTestMap( pGameMap );
     Director AI( pGameMap );
-
+    
     // Start the director
     AI.Start();
-
+    
     m_View.setPosition(0, 0);
     m_View.setScale( WINDOW_WIDTH / DEFAULT_MAP_WIDTH, WINDOW_HEIGHT / DEFAULT_MAP_HEIGHT );
-
+    
     sf::Image *pFrame = new sf::Image();
-
+    
     pFrame->create( DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT );
-
-    for (int i = 0; i < rules::iTeams; i++) {
-        Colony *pColony;
-        
-        switch (i) {
-            case 0:
-                pColony = new Colony( sf::Color( 255, 0, 255, 255 ) );
-                break;
-            case 1:
-                pColony = new Colony( sf::Color( 255, 255, 0, 255 ) );
-                break;
-            case 2:
-                pColony = new Colony( sf::Color( 255, 0, 0, 255 ) );
-                break;
-            case 3:
-                pColony = new Colony( sf::Color( 0, 0, 255, 255 ) );
-                break;
-            default:
-                pColony = new Colony( sf::Color( 255, 0, 255, 255 ) );
-                break;
-        }
-
-        Person *pPerson = new Person( 10, 0, 0, pColony );
-        
-        int iSpawnLoc = m_RandomNumberGenerator.CreateRandomNumber();
-        
-        m_mMap->UTIL_At2D( pGameMap, iSpawnLoc, iSpawnLoc )->MoveInPerson( pPerson );
-    }
-
+    
+    Colony *pColonyOne = new Colony( sf::Color( 255, 255, 0, 255 ) );
+    Person *pPersonOne = new Person( 10, 0, 0, pColonyOne );
+    Colony *pColonyTwo = new Colony( sf::Color( 255, 0, 255, 255 ) );
+    Person *pPersonTwo = new Person( 10, 0, 0, pColonyTwo ); /* I changed this from 15 to 10 inorder to make it more fair, otherwise one of the armies wins every time */
+    m_mMap->UTIL_At2D( pGameMap, 1, 1 )->MoveInPerson( pPersonOne );
+    m_mMap->UTIL_At2D( pGameMap, 20, 20 )->MoveInPerson( pPersonTwo );
+    
     m_mMap->UTIL_RenderMap( pGameMap, pFrame ); // Draw the init map
     while ( m_Window.isOpen() )
     {
@@ -58,7 +37,7 @@ void Application::run()
             if (event.type == sf::Event::Closed)
                 m_Window.close();
         }
-
+        
         if ( AI.DoThink() )
         {
             m_mMap->UTIL_RenderMap( pGameMap, pFrame, AI.GetDeltaMap() );  // if deltamap stops working don't pass it in

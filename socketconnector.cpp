@@ -10,7 +10,6 @@
 
 bool bGetIsServer ()
 {
-    //get an input from the user
     std::cout << "Start: ";
     std::string input;
     std::cin >> input;
@@ -18,7 +17,6 @@ bool bGetIsServer ()
 
     bool bIsServer;
 
-    //figure out what the user said
     if (input == "server")
         bIsServer = true;
     else
@@ -27,11 +25,12 @@ bool bGetIsServer ()
     return bIsServer;
 }
 
-void socketconnector::server () {
+void socketconnector::server ()
+{
     iSocket = socket(AF_INET, SOCK_STREAM, 0);
     
     saiAddress.sin_family = AF_INET;
-    saiAddress.sin_port = htons(3000);
+    saiAddress.sin_port = htons(PORT);
     saiAddress.sin_addr.s_addr = INADDR_ANY; //INADDR_ANY is great because it makes your socket listen on all networks
     
     bind(iSocket, (sockaddr *)&saiAddress, sizeof(saiAddress));
@@ -43,7 +42,8 @@ void socketconnector::server () {
     send(iSocket, sRecived.c_str(), sRecived.size(), 0);
 }
 
-void socketconnector::client () {
+void socketconnector::client ()
+{
     iSocket = socket(AF_INET, SOCK_STREAM, 0);
     
     memset(&saiAddress, '0', sizeof(saiAddress));
@@ -57,7 +57,8 @@ void socketconnector::client () {
     send(iSocket, sRecived.c_str(), sRecived.size(), 0);
 }
 
-void socketconnector::vPrintColor () {
+void socketconnector::vPrintColor ()
+{
  std::cout << "Color: " << std::to_string(sfcData.r) << "," << std::to_string(sfcData.g) << "," << std::to_string(sfcData.b) << "\n";
 }
 
@@ -66,13 +67,9 @@ socketconnector::socketconnector ()
     bIsServer = bGetIsServer();
 
     if (bIsServer)
-    {
         server();
-    }
     else
-    {
         client();
-    }
 }
 
 void socketconnector::vSendMessage(std::string input)
@@ -107,7 +104,6 @@ std::string socketconnector::vRead()
     else
         read( iSocket, cBuffer, 1024 );
 
-//    send(iSocket, sRecived.c_str(), sRecived.size(), 0);
     return cBuffer;
 }
 
